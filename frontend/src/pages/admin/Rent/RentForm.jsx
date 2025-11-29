@@ -63,7 +63,7 @@ export default function RentForm({ initialValues = null, tenants = [], onSubmit,
       />
 
       <div className="text-right">
-        <button disabled={disabled} className="bg-purple-600 text-white px-4 py-2 rounded">
+        <button disabled={disabled} className="rounded bg-gradient-to-b from-[#F46A47] to-[#E85A3C] text-white px-4 py-2">
           Save
         </button>
       </div>

@@ -31,6 +31,7 @@ export function AuthProvider({children}){
     setUser(res.data.user)
     return res.data
   }
+  
   async function loginTenant(email, password){
     const res = await api.post('/auth/tenant/login', { email, password })
     setUser(res.data.user)

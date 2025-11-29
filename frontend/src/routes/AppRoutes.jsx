@@ -12,7 +12,6 @@ import TenantDashboard from '../pages/tenant/TenantDashboard'
 import useAuth from '../hooks/useAuth'
 
 import Landing from '../pages/Landing'
-import Signup from '../pages/auth/Signup'
 import AdminSignup from '@/pages/admin/AdminSignup'
 
 function RequireAdmin({children}){
@@ -21,6 +20,7 @@ function RequireAdmin({children}){
   if(!user || user.role !== 'admin') return <Navigate to="/admin/login" replace />
   return children
 }
+
 function RequireTenant({children}){
   const { user, loading } = useAuth()
   if(loading) return <div className="p-6">Loading...</div>
@@ -35,13 +35,10 @@ export default function AppRoutes(){
       {/* Landing page (no topbar) */}
       <Route path="/" element={<Landing />} />
 
-      {/* Signup (tenant self-register) */}
-      <Route path="/signup" element={<Signup />} />
-
       {/* Admin auth & protected area */}
       <Route path="/admin/login" element={<AdminLogin/>} />
       <Route path="/admin/signup" element={<AdminSignup/>} />
-      <Route path="/admin" element={<RequireAdmin><AdminLayout/></RequireAdmin>}>
+      <Route path="/admin" element={<RequireAdmin> <AdminLayout/> </RequireAdmin>}>
         <Route path="dashboard" element={<Dashboard/>} />
         <Route path="rooms" element={<RoomsList/>} />
         <Route path="tenants" element={<TenantsList/>} />

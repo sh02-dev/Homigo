@@ -8,10 +8,14 @@ require('dotenv').config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret';
 const COOKIE_SECURE = (process.env.COOKIE_SECURE === 'true');
+// const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || '10', 10);
 
 router.use(express.json());
 
-// ADMIN LOGIN
+// Keep cookieParser usage consistent (server.js already uses it; harmless here if called again)
+router.use(cookieParser());
+
+// ADMIN LOGIN (unchanged)
 router.post('/admin/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -35,7 +39,7 @@ router.post('/admin/login', async (req, res, next) => {
   } catch (err) { next(err) }
 });
 
-// TENANT LOGIN
+// TENANT LOGIN (unchanged)
 router.post('/tenant/login', async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -59,7 +63,7 @@ router.post('/tenant/login', async (req, res, next) => {
   } catch (err) { next(err) }
 });
 
-// LOGOUT 
+// LOGOUT (unchanged)
 router.post('/logout', (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
@@ -69,8 +73,7 @@ router.post('/logout', (req, res) => {
   return res.json({ ok: true, message: 'Logged out' });
 });
 
-
-// ME - read user from cookie
+// ME - read user from cookie (unchanged)
 router.get('/me', async (req, res) => {
   try {
     const token = req.cookies && req.cookies.token;
@@ -81,7 +84,5 @@ router.get('/me', async (req, res) => {
     return res.status(200).json({ user: null });
   }
 });
-
-
 
 module.exports = router;
