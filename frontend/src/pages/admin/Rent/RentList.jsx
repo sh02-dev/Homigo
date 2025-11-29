@@ -81,7 +81,7 @@ export default function RentList() {
       <div className="flex justify-between mb-4">
         <h2 className="text-xl font-bold">Rent Management</h2>
         <button
-          className="bg-purple-600 px-4 py-2 rounded"
+          className="bg-gradient-to-b from-[#F46A47] to-[#E85A3C] px-4 py-2 rounded"
           onClick={() => { setEditing(null); setOpen(true) }}
           disabled={busy}
         >

@@ -26,7 +26,7 @@ export default function RoomForm({onSubmit}){
         <Input label="Floor" value={floor} onChange={e=>setFloor(e.target.value)} />
       </div>
       <div className="text-right">
-        <button type="submit" className="px-5 py-2 rounded bg-gradient-to-r from-purple-500 to-pink-500 text-white">Create Room</button>
+        <button type="submit" className="px-5 py-2 rounded bg-gradient-to-b from-[#F46A47] to-[#E85A3C] text-white">Create Room</button>
       </div>
     </form>
   )

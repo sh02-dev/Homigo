@@ -96,7 +96,7 @@ export default function RoomsList(){
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-bold">Room Management</h2>
         <button
-          className="bg-purple-600 px-4 py-2 rounded"
+          className="bg-gradient-to-b from-[#F46A47] to-[#E85A3C] px-4 py-2 rounded"
           onClick={onOpenAdd}
           disabled={busy}
         >
