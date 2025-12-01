@@ -8,12 +8,44 @@ require('dotenv').config();
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'change_this_secret';
 const COOKIE_SECURE = (process.env.COOKIE_SECURE === 'true');
-// const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || '10', 10);
 
 router.use(express.json());
 
 // Keep cookieParser usage consistent (server.js already uses it; harmless here if called again)
 router.use(cookieParser());
+
+// ADMIN SIGNUP
+router.post("/admin/signup", async (req, res, next) => {
+  try {
+    const { name, email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required" });
+    }
+
+    const [rows] = await pool.query("SELECT id FROM admins WHERE email = ?", [email]);
+    if (rows.length > 0) {
+      return res.status(409).json({ message: "Admin already exists!" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const [result] = await pool.query(
+      "INSERT INTO admins (name, email, password_hash) VALUES (?, ?, ?)",
+      [name || null, email, hashedPassword]
+    );
+
+    return res.status(201).json({
+      message: "Signup successful",
+      user: { id: result.insertId, name, email },
+    });
+
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 
 // ADMIN LOGIN (unchanged)
 router.post('/admin/login', async (req, res, next) => {

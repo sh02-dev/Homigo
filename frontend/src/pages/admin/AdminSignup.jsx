@@ -8,8 +8,8 @@ export default function AdminSignup(){
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signupAdmin } = useAuth()
   const nav = useNavigate()
+  const {signupAdmin} = useAuth() ;
 
   async function submit(e){ 
     e.preventDefault()
@@ -22,7 +22,8 @@ export default function AdminSignup(){
     setLoading(true)
     try{
       await signupAdmin(name, email, password)
-      nav('/admin/dashboard')
+      alert("Signup successful!") ;
+      nav('/admin/login')
     }catch(err){ 
       alert('Signup failed: ' + (err.message || 'Please try again'))
     }

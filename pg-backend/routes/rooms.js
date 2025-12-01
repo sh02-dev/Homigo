@@ -33,12 +33,26 @@ router.put('/update/:id', requireAuth('admin'), async (req, res, next) => {
   } catch (err) { next(err); }
 });
 
+
 router.delete('/delete/:id', requireAuth('admin'), async (req, res, next) => {
+  const roomId = req.params.id;
   try {
-    const id = req.params.id;
-    await pool.query('DELETE FROM rooms WHERE id = ?', [id]);
-    res.json({ ok: true });
-  } catch (err) { next(err); }
+    const [rows] = await pool.query(
+      'SELECT COUNT(*) AS cnt FROM tenants WHERE room_id = ?',
+      [roomId]
+    );
+    if (rows[0].cnt > 0) {
+      return res.status(400).json({
+        message: 'Cannot delete room: tenants are assigned to this room. Move out or unassign tenants first.'
+      });
+    }
+
+    await pool.query('DELETE FROM rooms WHERE id = ?', [roomId]);
+    return res.json({ message: 'Room deleted successfully' });
+  } catch (err) {
+    next(err);
+  }
 });
+
 
 module.exports = router;

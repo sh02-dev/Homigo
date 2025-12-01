@@ -30,6 +30,12 @@ export function AuthProvider({children}){
     setUser(res.data.user)
     return res.data
   }
+
+  // admin signup functionality
+  async function signupAdmin(name, email, password){
+    const res = await api.post("/auth/admin/signup", {name, email, password}) ;
+    return res.data ;
+  }
   
   async function loginTenant(email, password){
     const res = await api.post('/auth/tenant/login', { email, password })
@@ -43,7 +49,7 @@ export function AuthProvider({children}){
   }
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loginAdmin, loginTenant, logout, loading }}>
+    <AuthContext.Provider value={{ user, setUser, signupAdmin, loginAdmin, loginTenant, logout, loading }}>
       {children}
     </AuthContext.Provider>
   )

@@ -31,6 +31,7 @@ export default function RoomsList(){
       setOpen(false)
       setEditing(null)
       await fetchRooms()
+      alert("Room created successfully!")
     } catch (err) {
       console.error('Create room failed', err)
       alert(err?.message || 'Failed to create room')
@@ -46,6 +47,7 @@ export default function RoomsList(){
       setOpen(false)
       setEditing(null)
       await fetchRooms()
+      alert("Room updated successfully!")
     } catch (err) {
       console.error('Update room failed', err)
       alert(err?.message || 'Failed to update room')
@@ -55,18 +57,19 @@ export default function RoomsList(){
   }
 
   async function onDelete(id){
-    if(!confirm('Delete room?')) return;
-    setBusy(true)
-    try {
-      await deleteRoom(id)
-      await fetchRooms()
-    } catch (err) {
-      console.error('Delete room failed', err)
-      alert(err?.message || 'Failed to delete room')
-    } finally {
-      setBusy(false)
-    }
+  if(!confirm('Delete room?')) return;
+  setBusy(true)
+  try {
+    const res = await deleteRoom(id)
+    await fetchRooms()
+    alert(res?.message || "Room deleted successfully!")
+  } catch (err) {
+    console.error('Delete room failed', err)
+    alert(err?.message || 'Failed to delete room')
+  } finally {
+    setBusy(false)
   }
+}
 
   function onEdit(room){
     // normalize initialValues for RoomForm
