@@ -12,11 +12,6 @@ export default function RoomsList(){
 
   useEffect(() => {
     fetchRooms()
-
-    // refresh when roomService notifies about changes
-    function handleRoomsChanged() { fetchRooms() }
-    window.addEventListener('roomsChanged', handleRoomsChanged)
-    return () => window.removeEventListener('roomsChanged', handleRoomsChanged)
   }, [])
 
   async function fetchRooms(){
@@ -104,7 +99,7 @@ export default function RoomsList(){
         </button>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4"> 
         {rooms.length === 0 && (
           <div className="text-gray-400">No rooms yet</div>
         )}
@@ -155,7 +150,8 @@ export default function RoomsList(){
               await onCreate(payload)
             }
           }}
-          disabled={busy}
+          disabled=
+          {busy}
         />
       </Modal>
     </div>

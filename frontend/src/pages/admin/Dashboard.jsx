@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useCallback } from 'react'
 import Card from '../../components/ui/Card'
 import { getRooms } from '../../services/roomService'
@@ -30,18 +29,12 @@ export default function Dashboard(){
   },[])
 
   useEffect(()=>{
+    // fetch once on mount (when user navigates to Dashboard)
     fetchAll()
 
-    // Optional polling to keep UI eventually consistent if events missed
-    const pollId = setInterval(fetchAll, 10000) // every 10s; reduce if needed
-
-    // Listen for roomsChanged event triggered by roomService (after add/update/delete)
-    function onRoomsChanged(){ fetchAll() }
-    window.addEventListener('roomsChanged', onRoomsChanged)
-
-    return ()=>{
-      clearInterval(pollId)
-      window.removeEventListener('roomsChanged', onRoomsChanged)
+    // no polling, no global event listeners — rely on navigation/mount to refresh
+    return () => {
+      // nothing to clean up
     }
   },[fetchAll])
 
